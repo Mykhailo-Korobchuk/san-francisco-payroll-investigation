@@ -19,3 +19,29 @@ This project covers the full analytics lifecycle: **raw data profiling**, **data
 │  148.6K Rows    │       │  Audit & Cleaning  │       │  & Clean Production │       │  YoY, Outliers   │
 └─────────────────┘       └────────────────────┘       └─────────────────────┘       └──────────────────┘
 ```
+
+
+
+# 🛠️ Phase 1: Data Audit & Cleaning Metrics
+A systematic pre-ingestion audit was conducted using Power Query Data Profiling (Column Quality, Column Distribution, and Column Profile) to identify and resolve dirty data issues.
+
+📊 Data Cleaning Metrics Log:
+- Metric	Value	Business Justification / Impact
+- Raw Observations	148,654	Initial Kaggle dataset (Salaries.csv).
+- Input Columns	13	Initial raw schema width.
+- Redundant Columns Dropped	3	Dropped Notes (100% empty), Status (100% empty), and Agency (zero variance: 100% "San Francisco").
+- Identified Anomalous Errors	3,420	Non-numeric entries, whitespace strings, and 'Not Provided' edge cases (e.g., IDs 148647, 148651–148653).
+- Errors Handled & Replaced	3,420	Replaced string errors with explicit ANSI null values to preserve row integrity.
+- Whitespace Normalization	100%	Applied Text.Trim to EmployeeName and JobTitle to eliminate trailing whitespace.
+- Final Clean Observations	148,650	Fully verified, type-safe dataset loaded into PostgreSQL.
+# 📂 Repository File Structure
+
+```text
+san-francisco-payroll-investigation/
+├── data/
+│   ├── Salaries_raw.csv           # Original untransformed Kaggle dataset
+│   └── Salaries_clean.csv         # Cleaned, standardized 10-column dataset
+├── 01_schema_and_etl.sql          # DDL: Staging and production analytical schema
+├── 02_analysis.sql                # Production SQL audit & business queries
+└── README.md                      # Comprehensive project documentation
+```
