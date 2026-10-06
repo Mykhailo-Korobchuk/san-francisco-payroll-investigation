@@ -23,10 +23,7 @@ CREATE TABLE salaries (
     benefits TEXT,
     total_pay TEXT,
     total_pay_benefits TEXT,
-    year TEXT,
-    notes TEXT,
-    agency TEXT,
-    status TEXT
+    year TEXT
 );
 
 -- Note: Data was loaded via PostgreSQL COPY command from Salaries_clean.csv (148,650 rows).
