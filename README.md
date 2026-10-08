@@ -115,6 +115,64 @@ Year	|Records	|Total Payroll	|Prev Year Payroll |YoY Change  	 |Growth %	    | O
 - Dip in 2014: payroll fell −1.43% (−$41.7M) even though records grew by 517. Average pay per record dropped about 2.8%. The data alone does not explain why.
 - Rising overtime share: overtime grew roughly 25.7% over 2011–2014 against about +5.4% growth in records, lifting its share of total pay from 6.32% to 7.16%.
 
+### 🏢 Business Question 3: Which Municipal Sectors Cost the Most to Taxpayers?
 
+* **Business Objective:** Aggregate fragmented civil service job titles into 8 primary functional sectors using pattern matching (`ILIKE`) to evaluate compensation equity, overtime reliance, and gross budgetary impact across municipal domains.
 
-
+```sql
+WITH sect AS (
+    SELECT 
+        CASE 
+            WHEN job_title ILIKE '%POLICE%' OR 
+                 job_title ILIKE '%SHERIFF%' OR 
+                 job_title ILIKE '%SERGEANT%' THEN 'Police & Law Enforcement'
+            WHEN job_title ILIKE '%FIRE%' THEN 'Fire & Rescue'
+            WHEN job_title ILIKE '%NURSE%' OR
+                 job_title ILIKE '%MEDICAL%' OR
+                 job_title ILIKE '%HEALTH%' OR 
+                 job_title ILIKE '%PHYSICIAN%' THEN 'Medical & Healthcare'
+            WHEN job_title ILIKE '%TRANSIT%' OR 
+                 job_title ILIKE '%OPERATOR%' OR
+                 job_title ILIKE '%MECHANIC%' OR
+                 job_title ILIKE '%CUSTODIAN%' OR    
+                 job_title ILIKE '%MAINTENANCE%' THEN 'Transit & Public Works'
+            WHEN job_title ILIKE '%ATTORNEY%' OR
+                 job_title ILIKE '%COUNSEL%' OR
+                 job_title ILIKE '%LEGAL%' THEN 'Legal & Judicial'
+            WHEN job_title ILIKE '%RECREATION%' OR 
+                 job_title ILIKE '%LIBRAR%' OR 
+                 job_title ILIKE '%PARK%' THEN 'Community & Recreation'
+            WHEN job_title ILIKE '%MANAGER%' OR 
+                 job_title ILIKE '%DIRECTOR%' OR 
+                 job_title ILIKE '%ADMINISTRATIVE%' OR 
+                 job_title ILIKE '%CLERK%' OR 
+                 job_title ILIKE '%ANALYST%' THEN 'Management & Admin'       
+            ELSE 'Other' 
+        END AS sector,
+        total_pay,
+        overtime_pay
+    FROM sf_clean
+)
+SELECT 
+    sector,
+    COUNT(*) AS total_records,
+    ROUND(AVG(total_pay), 2) AS avg_pay,
+    ROUND(AVG(overtime_pay), 2) AS avg_overtime,
+    ROUND(SUM(total_pay), 2) AS total_sector_spend 
+FROM sect
+GROUP BY sector
+ORDER BY total_records DESC;
+```
+📊 Sector Compensation Benchmark Results:
+```
+Sector                      |Records	|Avg Annual Pay  |Avg Overtime	|Total Sector Spend
+"Other"	                    |63393	    |65008.56	     |2769.02	    |4120437520.19
+"Medical & Healthcare"	    |20073	    |70290.68	     |2079.60	    |1410734008.57
+"Transit & Public Works"	|17621	    |69118.72	     |10909.37	    |1217664497.84
+"Management & Admin"	    |17424	    |74462.44	     |499.55	    |1297061184.58
+"Police & Law Enforcement"	|13130	    |119967.94	     |12549.28	    |1575179096.81
+"Community & Recreation"	|7737	    |34572.85	     |1422.91	    |267386457.13
+"Fire & Rescue"	            |5879	    |151711.62	     |26383.32	    |891760885.18
+"Legal & Judicial"	        |3397	    |98435.72	     |1648.86	    |334386135.75
+```
+**💡 Executive Insights:**
