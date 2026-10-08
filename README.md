@@ -77,9 +77,6 @@ Other Pay	|542,370,270.97	    |3.89%
 Benefits	|2,813,149,454.79	|20.20%
 Grand Total	|13,927,772,712.41	|100%
 ```
-
-<img width="1150" height="81" alt="image" src="https://github.com/user-attachments/assets/7bfffb21-adad-4b57-b4ec-c41b95be2da5" />
-
 **💡 Analytical Takeaways**
 - The 70 / 20 split: base wages are 70.5% of cost and benefits (pensions, medical) are 20.2% ($2.81B). For every $3.50 of base pay, the city pays about $1.00 in benefits.
 - Variable compensation: overtime plus other pay is 9.3% ($1.295B) of total spending. Overtime ($753M) exceeds all other pay combined ($542M).
@@ -113,10 +110,6 @@ Year	|Records	|Total Payroll	|Prev Year Payroll |YoY Change  	 |Growth %	    | O
 2013	|37606	    |2918655824.83	|2724848116.46	   |193807708.37	 |7.11	        | 6.81
 2014	|38123	    |2876910873.87	|2918655824.83	   |-41744950.96	 |-1.43	        | 7.16
 ```
-
-
-<img width="980" height="172" alt="image" src="https://github.com/user-attachments/assets/ef012020-f6d2-4193-b7bb-0d9f282db707" />
-
 **💡 Key Takeaways**
 - Peak in 2013: payroll reached $2.92B, up +7.11% (+$193.8M) while records grew by 840.
 - Dip in 2014: payroll fell −1.43% (−$41.7M) even though records grew by 517. Average pay per record dropped about 2.8%. The data alone does not explain why.
