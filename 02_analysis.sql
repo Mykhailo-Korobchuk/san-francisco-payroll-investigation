@@ -87,3 +87,21 @@ SELECT
 FROM sect
 GROUP BY sector
 ORDER BY total_records DESC;
+
+-- =====================================================
+-- Question 4: Which Specific Job Roles Exhibit Chronic Overtime Inefficiency?
+-- Business Goal: Identify high-volume municipal roles (>= 50 occurrences) with the highest 
+-- overtime dependency ratio relative to base pay, highlighting understaffed operations.
+-- =====================================================
+
+SELECT 
+    job_title,
+    COUNT(*) AS employee_count,
+    ROUND(AVG(base_pay), 2) AS avg_base_pay,
+    ROUND(AVG(overtime_pay), 2) AS avg_overtime_pay,
+    ROUND(100 * SUM(overtime_pay) / NULLIF(SUM(base_pay), 0), 2) AS overtime_burden_pct
+FROM sf_clean
+GROUP BY job_title
+HAVING COUNT(*) >= 50
+ORDER BY overtime_burden_pct DESC
+LIMIT 10;
