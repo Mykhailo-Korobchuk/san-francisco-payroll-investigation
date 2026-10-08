@@ -1,14 +1,18 @@
 # 🏛️ San Francisco Municipal Payroll & Overtime Investigation
 
-An end-to-end municipal compensation audit analyzing **148,650 public payroll records** ($2.9B annual municipal budget) for the City and County of San Francisco. 
+An end-to-end compensation audit of 148,650 public payroll records (2011–2014, ~$2.9B annual payroll excluding benefits) for the City and County of San Francisco.
 
-This project covers the full analytics lifecycle: **raw data profiling**, **data cleaning & transformation in Power Query**, **staging-to-production modeling in PostgreSQL**, **in-depth SQL auditing**, and **strategic municipal policy recommendations**.
+The project covers the full analytics lifecycle: raw data profiling, cleaning and transformation in Power Query, staging-to-production modeling in PostgreSQL, and SQL analysis (cost structure, year-over-year dynamics). Overtime outlier analysis and policy recommendations are planned as next steps.
+
 
 ---
 
 ## 📌 Executive Summary & Key Findings
-+++++++
-
+- Base pay dominates cost: base wages are 70.5% of total compensation, benefits 20.2%, overtime 5.4%, other pay 3.9%.
+- Overtime outweighs other pay: overtime ($753M) is about 39% larger than all other pay combined ($542M).
+- Payroll grew, then dipped: total pay rose +5.0% in 2012 and +7.1% in 2013, then fell −1.4% in 2014 despite more records (+517).
+- Overtime share is rising every year: from 6.32% of total pay in 2011 to 7.16% in 2014.
+- ----------------++++++++++++++++++++++++++++++++++
 
 
 ## 🔄 End-to-End Pipeline Architecture
@@ -48,7 +52,7 @@ san-francisco-payroll-investigation/
 
 ### 📊 Business Question 1: What Are the Primary Cost Drivers of Municipal Expenditure?
 
-* **Business Objective:** Deconstruct the total multi-year municipal budget into core structural components (Base Pay, Overtime, Additional Pay, and Benefits) to evaluate where taxpayer dollars are concentrated.
+Business objective: break the total 2011–2014 compensation into Base Pay, Overtime, Other Pay and Benefits to see where taxpayer money is concentrated.
 
 ```sql
 SELECT
@@ -64,7 +68,59 @@ SELECT
 FROM sf_clean;
 ```
 📈 Results & Cost Breakdown:
+
+```
+Component	|Total (USD)	    |Share of grand total
+Base Pay	|9,819,150,982.31	|70.50%
+Overtime	|753,066,596.98 	|5.41%
+Other Pay	|542,370,270.97	    |3.89%
+Benefits	|2,813,149,454.79	|20.20%
+Grand Total	|13,927,772,712.41	|100%
+```
+
 <img width="1150" height="81" alt="image" src="https://github.com/user-attachments/assets/7bfffb21-adad-4b57-b4ec-c41b95be2da5" />
+
+**💡 Analytical Takeaways**
+- The 70 / 20 split: base wages are 70.5% of cost and benefits (pensions, medical) are 20.2% ($2.81B). For every $3.50 of base pay, the city pays about $1.00 in benefits.
+- Variable compensation: overtime plus other pay is 9.3% ($1.295B) of total spending. Overtime ($753M) exceeds all other pay combined ($542M).
+
+### 📈 Business Question 2: How Did Payroll Evolve Over Time (YoY Dynamics)?
+
+Business objective: evaluate payroll scaling across 2011–2014, track record counts, annual dollar shifts and YoY percentage growth.
+
+```sql
+SELECT 
+    year,
+    COUNT(*) AS total_workers,
+    ROUND(SUM(total_pay), 2) AS total_payroll,
+    ROUND(LAG(SUM(total_pay)) OVER (ORDER BY year), 2) AS prev_year_payroll,
+    ROUND(SUM(total_pay) - LAG(SUM(total_pay)) OVER (ORDER BY year), 2) AS growth_amount,
+    ROUND(
+        (SUM(total_pay) - LAG(SUM(total_pay)) OVER (ORDER BY year)) * 100 
+        / NULLIF(LAG(SUM(total_pay)) OVER (ORDER BY year), 0), 
+        2
+    ) AS growth_pct,
+    ROUND(SUM(overtime_pay) * 100 / NULLIF(SUM(total_pay), 0), 2) AS overtime_share_pct
+FROM sf_clean
+GROUP BY year
+ORDER BY year;
+```
+📊 Annual Municipal Growth Metrics:
+```
+Year	|Records	|Total Payroll	|Prev Year Payroll |YoY Change  	 |Growth %	    | Overtime Share*
+2011	|36159	    |2594194970.89	|			       |                 |              | 6.32
+2012	|36766	    |2724848116.46	|2594194970.89	   |130653145.57	 |5.04	        | 6.78
+2013	|37606	    |2918655824.83	|2724848116.46	   |193807708.37	 |7.11	        | 6.81
+2014	|38123	    |2876910873.87	|2918655824.83	   |-41744950.96	 |-1.43	        | 7.16
+```
+
+
+<img width="980" height="172" alt="image" src="https://github.com/user-attachments/assets/ef012020-f6d2-4193-b7bb-0d9f282db707" />
+
+**💡 Key Takeaways**
+- Peak in 2013: payroll reached $2.92B, up +7.11% (+$193.8M) while records grew by 840.
+- Dip in 2014: payroll fell −1.43% (−$41.7M) even though records grew by 517. Average pay per record dropped about 2.8%. The data alone does not explain why.
+- Rising overtime share: overtime grew roughly 25.7% over 2011–2014 against about +5.4% growth in records, lifting its share of total pay from 6.32% to 7.16%.
 
 
 
