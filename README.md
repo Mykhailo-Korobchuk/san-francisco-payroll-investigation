@@ -9,15 +9,16 @@ The project covers the full analytics lifecycle: raw data profiling, cleaning an
 ---
 
 ## 📌 Executive Summary & Key Findings
-- Base pay dominates cost: base wages are 70.5% of total compensation, benefits 20.2% (about 24.8% in 2012–2014, the years benefits are reported), overtime 5.4%, other pay 3.9%.
-- Payroll grew, then dipped: total pay rose +5.0% in 2012 and +7.1% in 2013, then fell −1.4% in 2014 despite more records (+517).
-- Overtime share is rising every year: from 6.32% of total pay in 2011 to 7.16% in 2014.
-- Emergency services carry the pay premium: Fire & Rescue averages ~$151.7K and Police ~$120.0K per record, about 2.0x and 1.6x the overall average (~$74.8K, derived).
-- Overtime is concentrated: Fire and Police together account for ~$320M of overtime, roughly 42% of all overtime in the dataset.
-- Muni transit leads the overtime-to-base ratio: 9 of the top 10 job-title entries are transit roles, with overtime equal to roughly 30–44% of base pay.
-- Top 1% earners average 3.2x the rest: about 71% of their pay is still base wages, but variable pay (overtime + other) makes up 28.8% of it versus 11.2% for everyone else.
-- True cost of a record is ~$100K+: benefits add 31–36% on top of cash pay in 2012–2014.
-- Only 3 records exceed $500K: for these, 70–75% of the package is non-base (large Other Pay, overtime and benefits), while ranks 4–10 are mostly high base salaries ($257K–$319K).
+
+- **Base pay dominates cost:** base wages are 70.5% of total compensation (pay + benefits, 2011–2014), benefits 20.2%, overtime 5.4%, other pay 3.9%. Benefits are reported only for 2012–2014, where they make up about 24.8% of the total.
+- **Payroll grew, then dipped:** cash pay rose 5.0% in 2012 and 7.1% in 2013, then fell 1.4% in 2014 despite 517 more records.
+- **Overtime share keeps rising:** from 6.32% of cash pay in 2011 to 7.16% in 2014 (2012→2013 is almost flat: 6.78% → 6.81%).
+- **Emergency services carry the pay premium:** Fire & Rescue averages ≈$151.7K and Police ≈$120.0K per record, about 2.0x and 1.6x the overall average of ≈$74.8K (derived; job groups are keyword-based).
+- **Overtime is concentrated:** Fire and Police together account for ≈$320M of overtime, roughly 42% of the total, while making up only about 13% of records.
+- **Muni transit leads the overtime-to-base ratio:** 9 of the top 10 job-title entries are transit roles (some are spelling variants of the same role), with overtime equal to roughly 30–44% of base pay.
+- **Top 1% earners average 3.2x the rest:** about 70% of their pay is base wages, but variable pay (overtime + other pay) makes up 28.8% of it versus 11.2% for everyone else.
+- **True cost of a record is ≈$100–102K:** benefits add 31–36% on top of cash pay in 2012–2014.
+- **Only 3 records exceed $500K:** 70–75% of their package is non-base, mainly Other Pay (and overtime in one case). Ranks 4–10 are mostly high base salaries ($257K–$319K) and include repeat officials.
 
 
 ## 🔄 End-to-End Pipeline Architecture
