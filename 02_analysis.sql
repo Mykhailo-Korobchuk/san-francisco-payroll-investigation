@@ -105,3 +105,38 @@ GROUP BY job_title
 HAVING COUNT(*) >= 50
 ORDER BY overtime_burden_pct DESC
 LIMIT 10;
+
+-- =====================================================
+-- Question 5: What Drives the Top 1% Municipal Earners: Base Pay vs Variable Compensation?
+-- Business Goal: Segment the workforce into Top 1% vs the remaining 99% using NTILE(100) 
+-- to evaluate wage inequality, base salary disparities, and reliance on variable pay.
+-- =====================================================
+
+WITH presentil AS (
+    SELECT 
+        base_pay,
+        overtime_pay,
+        other_pay,
+        total_pay,
+        NTILE(100) OVER (ORDER BY total_pay DESC) AS ntile
+    FROM sf_clean
+)
+
+SELECT 
+    CASE 
+        WHEN ntile = 1 THEN 'Top 1% Earners'
+        ELSE 'Rest of Workforce' 
+    END AS earning_tier,
+    COUNT(*) AS total_records,
+    ROUND(AVG(base_pay), 2) AS avg_base,
+    ROUND(AVG(overtime_pay), 2) AS avg_overtime,
+    ROUND(AVG(other_pay), 2) AS avg_other,
+    ROUND(AVG(total_pay), 2) AS avg_total_pay,
+    ROUND(100 * (AVG(overtime_pay) + AVG(other_pay)) / NULLIF(AVG(total_pay), 0), 2) AS variable_pay_pct
+FROM presentil
+GROUP BY 
+    CASE 
+        WHEN ntile = 1 THEN 'Top 1% Earners'
+        ELSE 'Rest of Workforce' 
+    END
+ORDER BY avg_total_pay DESC;
