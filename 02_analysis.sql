@@ -24,7 +24,7 @@ FROM sf_clean;
 
 SELECT 
     year,
-    COUNT(*) AS total_workers,
+    COUNT(*) AS total_records,
     ROUND(SUM(total_pay), 2) AS total_payroll,
     ROUND(LAG(SUM(total_pay)) OVER (ORDER BY year), 2) AS prev_year_payroll,
     ROUND(SUM(total_pay) - LAG(SUM(total_pay)) OVER (ORDER BY year), 2) AS growth_amount,
@@ -89,14 +89,14 @@ GROUP BY sector
 ORDER BY total_records DESC;
 
 -- =====================================================
--- Question 4: Which Specific Job Roles Exhibit Chronic Overtime Inefficiency?
+-- Question 4: Which Job Roles Have the Highest Overtime-to-Base-Pay Ratio?
 -- Business Goal: Identify high-volume municipal roles (>= 50 occurrences) with the highest 
 -- overtime dependency ratio relative to base pay, highlighting understaffed operations.
 -- =====================================================
 
 SELECT 
     job_title,
-    COUNT(*) AS employee_count,
+    COUNT(*) AS total_records,
     ROUND(AVG(base_pay), 2) AS avg_base_pay,
     ROUND(AVG(overtime_pay), 2) AS avg_overtime_pay,
     ROUND(100 * SUM(overtime_pay) / NULLIF(SUM(base_pay), 0), 2) AS overtime_burden_pct
@@ -107,7 +107,7 @@ ORDER BY overtime_burden_pct DESC
 LIMIT 10;
 
 -- =====================================================
--- Question 5: What Drives the Top 1% Municipal Earners: Base Pay vs Variable Compensation?
+-- Question 5: What Drives the Top 1% of Payroll Records by Total Pay: Base Pay vs Variable Compensation?
 -- Business Goal: Segment the workforce into Top 1% vs the remaining 99% using NTILE(100) 
 -- to evaluate wage inequality, base salary disparities, and reliance on variable pay.
 -- =====================================================
@@ -149,7 +149,7 @@ ORDER BY avg_total_pay DESC;
 
 SELECT 
     year,
-    COUNT(*) AS total_workers,
+    COUNT(*) AS total_records,
     ROUND(AVG(total_pay), 2) AS avg_cash_pay,
     ROUND(AVG(benefits), 2) AS avg_benefits,
     ROUND(AVG(total_pay_benefits), 2) AS avg_true_cost,
@@ -162,7 +162,7 @@ GROUP BY year
 ORDER BY year;
 
 -- =====================================================
--- Question 7: Who Are the Top 10 Most Expensive Municipal Employees (Total Compensation)?
+-- Question 7: Who Are the Top 10 Annual Records by Total Compensation?
 -- Business Goal: Deconstruct the compensation anatomy of the highest-cost civil servants,
 -- evaluating the proportion of earnings derived outside contractual base pay.
 -- =====================================================
