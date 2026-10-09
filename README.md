@@ -36,14 +36,19 @@ The project covers the full analytics lifecycle: raw data profiling, cleaning an
 A systematic pre-ingestion audit was conducted using Power Query Data Profiling (Column Quality, Column Distribution, and Column Profile) to identify and resolve dirty data issues.
 
 📊 Data Cleaning Metrics Log:
-- Metric	Value	Business Justification / Impact
-- Raw Observations	148,654	Initial Kaggle dataset (Salaries.csv).
-- Input Columns	13	Initial raw schema width.
-- Redundant Columns Dropped	3	Dropped Notes (100% empty), Status (100% empty), and Agency (zero variance: 100% "San Francisco").
-- Identified Anomalous Errors	3,420	Non-numeric entries, whitespace strings, and 'Not Provided' edge cases (e.g., IDs 148647, 148651–148653).
-- Errors Handled & Replaced	3,420	Replaced string errors with explicit ANSI null values to preserve row integrity.
-- Whitespace Normalization	100%	Applied Text.Trim to EmployeeName and JobTitle to eliminate trailing whitespace.
-- Final Clean Observations	148,650	Fully verified, type-safe dataset loaded into PostgreSQL.
+| Metric | Value | Notes |
+|---|---|---|
+| Raw rows | 148,654 | Kaggle dataset `Salaries.csv` |
+| Raw columns | 13 | Initial schema |
+| Columns dropped | 3 | `Notes` (100% empty), `Status` (100% empty), `Agency` (single value: "San Francisco") |
+| Columns kept | 10 | |
+| Anomalous values found | 3,420 | Non-numeric entries, whitespace-only strings, and `Not Provided` |
+| Anomalous values handled | 3,420 | Replaced with SQL `NULL` so the rows stay in the dataset |
+| Rows removed | 4 |
+| Final rows | 148,650 | Loaded into PostgreSQL |
+
+Text fields `EmployeeName` and `JobTitle` were also trimmed of leading and trailing whitespace (`Text.Trim`).
+
 # 📂 Repository File Structure
 
 ```text
