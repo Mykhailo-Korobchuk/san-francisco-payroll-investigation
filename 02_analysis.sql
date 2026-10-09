@@ -140,3 +140,24 @@ GROUP BY
         ELSE 'Rest of Workforce' 
     END
 ORDER BY avg_total_pay DESC;
+
+-- =====================================================
+-- Question 6: What Is the True Municipal Cost per Employee Including Benefits (2012–2014)?
+-- Business Goal: Quantify non-wage benefits overhead, evaluate healthcare/pension 
+-- expenditure scaling, and calculate the true total cost of municipal workforce.
+-- =====================================================
+
+SELECT 
+    year,
+    COUNT(*) AS total_workers,
+    ROUND(AVG(total_pay), 2) AS avg_cash_pay,
+    ROUND(AVG(benefits), 2) AS avg_benefits,
+    ROUND(AVG(total_pay_benefits), 2) AS avg_true_cost,
+    ROUND(100.0 * AVG(benefits) / NULLIF(AVG(total_pay), 0), 2) AS benefits_load_pct,
+    ROUND(SUM(benefits), 2) AS total_city_benefits,
+    ROUND(SUM(benefits) - LAG(SUM(benefits)) OVER (ORDER BY year), 2) AS yoy_benefits_change
+FROM sf_clean
+WHERE year >= 2012
+GROUP BY year
+ORDER BY year;
+
