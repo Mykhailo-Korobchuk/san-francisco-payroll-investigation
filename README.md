@@ -260,17 +260,15 @@ Earning Tier	        |Headcount	|Avg Base    	|Avg Overtime	|Avg Other    |Avg T
 Top 1% Earners	        |1,487	    |164,431.94	    |41,183.89	    |26,265.02	  |234,202.68	|28.80 %
 Rest of Workforce (99%)	|147,167	|65,340.62	    |4,709.44	    |3,469.64	  |73,198.74	|11.17 %
 ```
-**💡 Structural Inequality Insights:**
-The 3.2x Earnings Multiplier: The Top 1% municipal elite averages **
-234.2K∗∗incashcompensation,earning∗∗3.2x∗∗thestandardcivicemployee(
-73.2K).
-Variable Pay Leverage: While base pay for the top tier is 2.5x higher than the median, their overtime earnings are 8.7x higher ($41.2K vs 4.7K)∗∗,andotherpay/bonusesare∗∗7.6xhigher(
-26.3K vs $3.5K).
-The Variable Pay Ceiling: Over 28.8% of the Top 1%’s compensation package is derived from variable add-ons (adding an average of $67,448 above base contract wages), proving that municipal top compensation is heavily driven by supplemental pay maximization rather than base salary alone.
+**💡 Pay Concentration Insights**
+- 3.2x multiplier: the top 1% averages $234.2K in total pay versus $73.2K for the rest.
+- Where the gap comes from: of the roughly $158K difference in average component pay, about 63% is base pay ($99.1K), 23% overtime ($36.5K) and 14% other pay ($22.8K). Base pay of the top tier is 2.5x the rest-of-workforce average, so top earners are largely better-paid on contract wages too.
+- Variable pay leverage: overtime is 8.7x and other pay 7.6x higher than for the rest of the workforce ($41.2K vs $4.7K and $26.3K vs $3.5K). Variable pay makes up 28.8% of top-tier pay (about $67.4K above base) versus 11.2% for everyone else.
+- Open question: the data shows composition, not who these workers are. A job-title breakdown of the top tier is the natural next step.
 
 ### 🏥 Business Question 6: What Is the True Cost of an Employee Including Benefits (2012–2014)?
 
-* **Business Objective:** Evaluate the municipal "benefits surcharge" (healthcare, dental, pensions) following mandatory disclosure in 2012, determining how much supplemental compensation adds on top of cash wages.
+**Business Objective:** Evaluate the municipal "benefits surcharge" (healthcare, dental, pensions) following mandatory disclosure in 2012, determining how much supplemental compensation adds on top of cash wages.
 
 ```sql
 SELECT 
@@ -294,13 +292,53 @@ Year	|Total Workforce	|Avg Cash	|Avg Benefits 	|Avg True	|Benefits Overhea	|Tota
 2013	|37,606	            |77,630.02	|24,253.26	    |101,883.28	|31.24%	            |896,109,608.49	        |-75,980,334.35
 2014	|38,123	            |75,475.79	|25,159.08	    |100,634.87	|33.33%	            |944,949,903.46	        |+48,840,294.97
 ```
-**💡 Executive Insights:**
-The $100K True Cost Threshold: While average base/cash earnings hover around 
+**💡 Executive Insights**
+- ~$100K true cost: adding benefits pushes the average annual cost of a payroll record to $100.6K–$101.9K, against $74.1K–$77.6K in cash pay.
+- 31%–36% benefits load: benefits add $24.3K–$26.6K on average, a 31.2% to 35.9% surcharge on cash pay.
+- $0.9–1.0B per year: total city spend on benefits was $972M in 2012, $896M in 2013 and $945M in 2014. Benefits are the second-largest component of total compensation after base pay.
+- Volatile 2013–2014: total benefits fell 7.8% in 2013 (−$76.0M) even though cash payroll rose 7.1%, then rebounded +5.4% in 2014 (+$48.8M). The data does not explain why.
 
-26,600peremployee∗∗,pushingtheaverageannualcostofmaintainingacivilservantpast∗∗
-100,000**.
-The 31%–36% Surcharge: Across all departments, supplemental benefits represent a 31.2% to 35.9% surcharge on top of cash wages.
-Nearly 
 
-1BillionAnnualHealthcare/PensionBill:∗∗Totalcityexpenditureonbenefitsaloneexceeded∗∗
-972M in 2012 and reached $945M in 2014, making non-wage compensation the second-largest line item in municipal budget planning.
+### 🏆 Business Question 7: Who Are the Top 10 Most Expensive Employees for Taxpayers?
+
+* **Business Objective:** Surface the ten highest Total Compensation packages in San Francisco history and deconstruct their pay architecture into contractual Base Pay, Overtime, Other Pay (stipends/severance), and Benefits.
+
+```sql
+SELECT 
+    employee_name,
+    job_title,
+    year,
+    base_pay,
+    overtime_pay,
+    other_pay,
+    benefits,
+    total_pay_benefits,
+    ROUND(
+        (100.0 * (total_pay_benefits - base_pay) / NULLIF(total_pay_benefits, 0)), 
+        2
+    ) AS non_base_pct
+FROM sf_clean
+WHERE total_pay_benefits IS NOT NULL
+ORDER BY total_pay_benefits DESC
+LIMIT 10;
+```
+📊 Top 10 All-Time Highest Total Compensation Packages:
+```
+Employee Name	         |Job Title	                                        |Year	|Base	   |Overtime  |Other	  |Benefits	|Compensation |Non-Base
+"NATHANIEL FORD"	     |"GENERAL MANAGER-METROPOLITAN TRANSIT AUTHORITY"	|2011	|167411.18 |0	      |400184.25  |null     |567595.43	  |70.51
+"GARY JIMENEZ"	         |"CAPTAIN III (POLICE DEPARTMENT)"	                |2011	|155966.02 |245131.88 |137811.38  |null     |538909.28	  |71.06
+"DAVID SHINN"	         |"Deputy Chief 3"	                                |2014	|129150.01 |0	      |342802.63  |38780.04	|510732.68	  |74.71
+"Amy P Hart"	         |"Asst Med Examiner"	                            |2014	|318835.49 |10712.95  |60563.54	  |89540.23	|479652.21	  |33.53
+"William J Coaker Jr."	 |"Chief Investment Officer"	                    |2014	|257340	   |0	      |82313.7	  |96570.66	|436224.36	  |41.01
+"Gregory P Suhr"	     |"CHIEF OF POLICE"	                                |2013	|319275.01 |0	      |20007.06	  |86533.21	|425815.28	  |25.02
+"Joanne M Hayes-White"	 |"Chief, Fire Department"	                        |2013	|313686.01 |0	      |23236	  |85431.39	|422353.4	  |25.73
+"Gregory P Suhr"	     |"CHIEF OF POLICE"	                                |2014	|307450.04 |0	      |19266.72	  |91302.46	|418019.22	  |26.45
+"Joanne M Hayes-White"	 |"Chief, Fire Department"	                        |2014	|302068	   |0	      |24165.44	  |91201.66	|417435.1	  |27.64
+"Ellen G Moffatt"	     |"Asst Med Examiner"	                            |2014	|270222.04 |6009.22	  |67956.2	  |71580.48	|415767.94	  |35.01
+```
+**💡 Executive Insights**
+- Only 3 records exceed $500K: Ford (2011), Jimenez (2011) and Shinn (2014). For them, non-base compensation is 70.5%–74.7% of the package.
+- Other Pay drives the top two single-source outliers: Ford's $400.2K and Shinn's $342.8K in Other Pay are far above their base pay. The dataset does not itemize what Other Pay contains (it can include lump-sum payouts), so the cause cannot be determined from the data.
+- Overtime outlier: Jimenez earned $245.1K in overtime and $137.8K in other pay on a $156.0K base, so his total is about 3.5x his base pay.
+- Ranks 4–10 are base-driven: base pay of $257K–$319K plus benefits of $72K–$97K, with non-base shares of 25%–41%. These are senior leadership and medical positions.
+- Repeat entries: the same senior officials recur across 2013 and 2014, a reminder that record-level rankings can overstate how many people are at the top.
