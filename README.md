@@ -2,7 +2,7 @@
 
 An end-to-end compensation audit of 148,650 public payroll records (2011–2014, ~$2.9B annual payroll excluding benefits) for the City and County of San Francisco.
 
-The project covers the full analytics lifecycle: raw data profiling, cleaning and transformation in Power Query, staging-to-production modeling in PostgreSQL, and SQL analysis (cost structure, year-over-year dynamics). Overtime outlier analysis and policy recommendations are planned as next steps.
+The project covers the full analytics lifecycle: raw data profiling, cleaning and transformation in Power Query, staging-to-production modeling in PostgreSQL, and SQL analysis (cost structure, year-over-year dynamics).
 
 **Tech Stack:** `Power Query` · `PostgreSQL 18` · `pgAdmin 4` · `SQL` (`CTEs`, `Window Functions`, `CASE`, `Pattern Matching`
 
