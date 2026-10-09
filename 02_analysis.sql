@@ -161,3 +161,26 @@ WHERE year >= 2012
 GROUP BY year
 ORDER BY year;
 
+-- =====================================================
+-- Question 7: Who Are the Top 10 Most Expensive Municipal Employees (Total Compensation)?
+-- Business Goal: Deconstruct the compensation anatomy of the highest-cost civil servants,
+-- evaluating the proportion of earnings derived outside contractual base pay.
+-- =====================================================
+
+SELECT 
+    employee_name,
+    job_title,
+    year,
+    base_pay,
+    overtime_pay,
+    other_pay,
+    benefits,
+    total_pay_benefits,
+    ROUND(
+        (100.0 * (total_pay_benefits - base_pay) / NULLIF(total_pay_benefits, 0)), 
+        2
+    ) AS non_base_pct
+FROM sf_clean
+WHERE total_pay_benefits IS NOT NULL
+ORDER BY total_pay_benefits DESC
+LIMIT 10;
