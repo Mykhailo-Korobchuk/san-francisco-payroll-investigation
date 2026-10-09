@@ -4,6 +4,7 @@ An end-to-end compensation audit of 148,650 public payroll records (2011–2014,
 
 The project covers the full analytics lifecycle: raw data profiling, cleaning and transformation in Power Query, staging-to-production modeling in PostgreSQL, and SQL analysis (cost structure, year-over-year dynamics). Overtime outlier analysis and policy recommendations are planned as next steps.
 
+**Tech Stack:** `Power Query` · `PostgreSQL 18` · `pgAdmin 4` · `SQL` (`CTEs`, `Window Functions`, `CASE`, `Pattern Matching`
 
 ---
 
@@ -12,7 +13,9 @@ The project covers the full analytics lifecycle: raw data profiling, cleaning an
 - Overtime outweighs other pay: overtime ($753M) is about 39% larger than all other pay combined ($542M).
 - Payroll grew, then dipped: total pay rose +5.0% in 2012 and +7.1% in 2013, then fell −1.4% in 2014 despite more records (+517).
 - Overtime share is rising every year: from 6.32% of total pay in 2011 to 7.16% in 2014.
-- ----------------++++++++++++++++++++++++++++++++++
+- Emergency services carry the pay premium: Fire & Rescue averages ~$151.7K and Police ~$120.0K per record, about 2.0x and 1.6x the overall average (~$74.8K, derived).
+- Overtime is concentrated: Fire and Police together account for ~$320M of overtime, roughly 42% of all overtime in the dataset.
+- Muni transit leads the overtime-to-base ratio: 9 of the top 10 job-title entries are transit roles, with overtime equal to roughly 30–44% of base pay.
 
 
 ## 🔄 End-to-End Pipeline Architecture
@@ -165,7 +168,7 @@ ORDER BY total_records DESC;
 ```
 📊 Sector Compensation Benchmark Results:
 ```
-Sector                      |Records	|Avg Annual Pay  |Avg Overtime	|Total Sector Spend
+Sector                      |Records	|Avg Pay         |Avg Overtime	|Total Sector Spend
 "Other"	                    |63393	    |65008.56	     |2769.02	    |4120437520.19
 "Medical & Healthcare"	    |20073	    |70290.68	     |2079.60	    |1410734008.57
 "Transit & Public Works"	|17621	    |69118.72	     |10909.37	    |1217664497.84
@@ -176,3 +179,44 @@ Sector                      |Records	|Avg Annual Pay  |Avg Overtime	|Total Secto
 "Legal & Judicial"	        |3397	    |98435.72	     |1648.86	    |334386135.75
 ```
 **💡 Executive Insights:**
+- Emergency services pay premium: Fire & Rescue ($151.7K avg) and Police ($120.0K avg) are the highest-paid sectors, about 2.0x and 1.6x the overall average of ~$74.8K per record.
+- Overtime density in emergency services: Fire records average $26,383 in overtime (about 17.4% of average pay) and Police $12,549 (about 10.5%). Together they account for roughly $320M of overtime, around 42% of all overtime in the dataset.
+- Largest spend among defined sectors: Police ($1.58B), followed by Medical & Healthcare ($1.41B). The Other bucket is larger than any of them ($4.12B, ~37% of spend), so sector results are directional rather than exact.
+- Low overtime in administration: Management & Admin averages only $499.55 in overtime per record.
+
+### 🚇 Business Question 4: Which Specific Roles Exhibit Chronic Overtime Inefficiency?
+
+* **Business Objective:** Surface specific high-volume municipal job titles (minimum 50 recorded employees) with the highest overtime dependency ratios (`Overtime / Base Pay`) to pinpoint operational bottlenecks, understaffing, and systemic schedule mismanagement.
+
+```sql
+SELECT 
+    job_title,
+    COUNT(*) AS employee_count,
+    ROUND(AVG(base_pay), 2) AS avg_base_pay,
+    ROUND(AVG(overtime_pay), 2) AS avg_overtime_pay,
+    ROUND(100 * SUM(overtime_pay) / NULLIF(SUM(base_pay), 0), 2) AS overtime_burden_pct
+FROM sf_clean
+GROUP BY job_title
+HAVING COUNT(*) >= 50
+ORDER BY overtime_burden_pct DESC
+LIMIT 10;
+```
+📊 Top 10 Overtime-Dependent Municipal Roles:
+```
+Job Title	                          |Employee Count	|Avg Base 	|Avg Overtime	|Overtime Burden
+"ELECTRICAL TRANSIT SYSTEM MECHANIC"  |204	            |71452.34	|31643.19	    |43.85 %
+"TRANSIT POWER LINE WORKER"	          |75	            |87510.65	|33432.57	    |38.72 %
+"TRAIN CONTROLLER"	                  |65	            |88167.51	|32408.12	    |36.76 %
+"TRANSIT SUPERVISOR"	              |812	            |77941.73	|28266.40	    |36.27 %
+"STATION AGENT, MUNICIPAL RAILWAY"	  |52	            |67222.53	|23972.48	    |35.66 %
+"TRACK MAINTENANCE WORKER"	          |129	            |49306.83	|16433.41	    |34.40 %
+"Station Agent, Muni Railway"	      |164	            |66841.19	|22438.57	    |34.20 %
+"Electrl Trnst Mech, Asst Sprv"	      |68	            |85956.63	|28705.15	    |33.39 %
+"Electrical Transit System Mech"	  |631	            |75272.25	|22437.37	    |29.90 %
+"Battalion Chief, Fire Suppress"	  |65	            |179084.05	|49453.05	    |28.49 %
+```
+**💡 Operational Inefficiency Takeaways:**
+- Muni transit concentration: 9 of the top 10 entries belong to the municipal railway and transit system (SFMTA / Muni). Their overtime equals roughly 30–44% of base pay.
+- Transit Supervisors: 812 records average $28.3K in overtime, about $23M cumulatively over 2011–2014.
+- Senior fire ranks: Battalion Chiefs average $49.5K in overtime on top of a $179.1K base (28.5%).
+- Interpretation: a high overtime ratio is consistent with understaffing, round-the-clock coverage requirements or scheduled premiums, and this dataset cannot tell these apart. Whether converting overtime into additional full-time headcount would save money depends on benefit and hiring costs, which are not included in the overtime figures.
