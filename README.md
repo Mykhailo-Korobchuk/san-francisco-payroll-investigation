@@ -257,8 +257,8 @@ ORDER BY avg_total_pay DESC;
 📊 Top 1% vs. 99% Compensation Comparison:
 ```
 Earning Tier	        |Headcount	|Avg Base    	|Avg Overtime	|Avg Other    |Avg Total    |Variable Pay Share
-Top 1% Earners	        |1,487	    |$164,431.94	|$41,183.89	    |$26,265.02	  |$234,202.68	|28.80 %
-Rest of Workforce (99%)	|147,167	|$65,340.62	    |$4,709.44	    |$3,469.64	  |$73,198.74	|11.17 %
+Top 1% Earners	        |1,487	    |164,431.94	    |41,183.89	    |26,265.02	  |234,202.68	|28.80 %
+Rest of Workforce (99%)	|147,167	|65,340.62	    |4,709.44	    |3,469.64	  |73,198.74	|11.17 %
 ```
 **💡 Structural Inequality Insights:**
 The 3.2x Earnings Multiplier: The Top 1% municipal elite averages **
@@ -268,4 +268,39 @@ Variable Pay Leverage: While base pay for the top tier is 2.5x higher than the m
 26.3K vs $3.5K).
 The Variable Pay Ceiling: Over 28.8% of the Top 1%’s compensation package is derived from variable add-ons (adding an average of $67,448 above base contract wages), proving that municipal top compensation is heavily driven by supplemental pay maximization rather than base salary alone.
 
+### 🏥 Business Question 6: What Is the True Cost of an Employee Including Benefits (2012–2014)?
 
+* **Business Objective:** Evaluate the municipal "benefits surcharge" (healthcare, dental, pensions) following mandatory disclosure in 2012, determining how much supplemental compensation adds on top of cash wages.
+
+```sql
+SELECT 
+    year,
+    COUNT(*) AS total_workers,
+    ROUND(AVG(total_pay), 2) AS avg_cash_pay,
+    ROUND(AVG(benefits), 2) AS avg_benefits,
+    ROUND(AVG(total_pay_benefits), 2) AS avg_true_cost,
+    ROUND(100.0 * AVG(benefits) / NULLIF(AVG(total_pay), 0), 2) AS benefits_load_pct,
+    ROUND(SUM(benefits), 2) AS total_city_benefits,
+    ROUND(SUM(benefits) - LAG(SUM(benefits)) OVER (ORDER BY year), 2) AS yoy_benefits_change
+FROM sf_clean
+WHERE year >= 2012
+GROUP BY year
+ORDER BY year;
+```
+📊 True Workforce Cost Breakdown (2012–2014):
+```
+Year	|Total Workforce	|Avg Cash	|Avg Benefits 	|Avg True	|Benefits Overhea	|Total City Benefits	|YoY Benefits Change
+2012	|36,766	            |74,125.36	|26,596.17	    |100,721.53	|35.88%	            |972,089,942.84	        |null
+2013	|37,606	            |77,630.02	|24,253.26	    |101,883.28	|31.24%	            |896,109,608.49	        |-75,980,334.35
+2014	|38,123	            |75,475.79	|25,159.08	    |100,634.87	|33.33%	            |944,949,903.46	        |+48,840,294.97
+```
+**💡 Executive Insights:**
+The $100K True Cost Threshold: While average base/cash earnings hover around 
+
+26,600peremployee∗∗,pushingtheaverageannualcostofmaintainingacivilservantpast∗∗
+100,000**.
+The 31%–36% Surcharge: Across all departments, supplemental benefits represent a 31.2% to 35.9% surcharge on top of cash wages.
+Nearly 
+
+1BillionAnnualHealthcare/PensionBill:∗∗Totalcityexpenditureonbenefitsaloneexceeded∗∗
+972M in 2012 and reached $945M in 2014, making non-wage compensation the second-largest line item in municipal budget planning.
