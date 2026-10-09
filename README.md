@@ -118,13 +118,14 @@ GROUP BY year
 ORDER BY year;
 ```
 📊 Annual Municipal Growth Metrics:
-```
-Year	|Records	|Total Payroll	|Prev Year Payroll |YoY Change  	 |Growth %	    | Overtime Share*
-2011	|36159	    |2594194970.89	|			       |                 |              | 6.32
-2012	|36766	    |2724848116.46	|2594194970.89	   |130653145.57	 |5.04	        | 6.78
-2013	|37606	    |2918655824.83	|2724848116.46	   |193807708.37	 |7.11	        | 6.81
-2014	|38123	    |2876910873.87	|2918655824.83	   |-41744950.96	 |-1.43	        | 7.16
-```
+
+|Year	|Records	|Total Payroll	|Prev Year Payroll |YoY Change  	 |Growth %	    | Overtime Share*|
+|-------|-----------|---------------|------------------|-----------------|--------------|----------------|
+|2011	|36159	    |2594194970.89	|			       |                 |              | 6.32 %         |
+|2012	|36766	    |2724848116.46	|2594194970.89	   |130653145.57	 |5.04 %        | 6.78 %         |
+|2013	|37606	    |2918655824.83	|2724848116.46	   |193807708.37	 |7.11 %        | 6.81 %         |
+|2014	|38123	    |2876910873.87	|2918655824.83	   |-41744950.96	 |-1.43	%       | 7.16 %         |
+
 **💡 Key Takeaways**
 - Peak in 2013: payroll reached $2.92B, up +7.11% (+$193.8M) while records grew by 840.
 - Dip in 2014: payroll fell −1.43% (−$41.7M) even though records grew by 517. Average pay per record dropped about 2.8%. The data alone does not explain why.
