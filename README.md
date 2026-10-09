@@ -96,9 +96,9 @@ FROM sf_clean;
 - **Base pay dominates:** base wages are 70.5% of total cost and benefits 20.2% ($2.81B). Benefits are missing for 2011, so for 2012–2014 alone their share is higher (about 24.8%).
 - **Variable compensation:** overtime plus other pay is 9.3% ($1.295B) of total spending. Overtime ($753M) exceeds other pay ($542M).
 
-### 📈 Business Question 2: How Did Payroll Evolve Over Time (YoY Dynamics)?
+### 📈 Business Question 2: How Did Payroll Evolve Over Time?
 
-Business objective: evaluate payroll scaling across 2011–2014, track record counts, annual dollar shifts and YoY percentage growth.
+**Business objective:** track record counts, annual dollar change and year-over-year growth in cash pay (`total_pay`, excluding benefits) for 2011–2014. All figures are nominal, not adjusted for inflation.
 
 ```sql
 SELECT 
@@ -126,10 +126,12 @@ ORDER BY year;
 |2013	|37606	    |2918655824.83	|2724848116.46	   |193807708.37	 |7.11 %        | 6.81 %         |
 |2014	|38123	    |2876910873.87	|2918655824.83	   |-41744950.96	 |-1.43	%       | 7.16 %         |
 
+*Overtime share is overtime as a percentage of cash pay (benefits excluded).*
+
 **💡 Key Takeaways**
-- Peak in 2013: payroll reached $2.92B, up +7.11% (+$193.8M) while records grew by 840.
-- Dip in 2014: payroll fell −1.43% (−$41.7M) even though records grew by 517. Average pay per record dropped about 2.8%. The data alone does not explain why.
-- Rising overtime share: overtime grew roughly 25.7% over 2011–2014 against about +5.4% growth in records, lifting its share of total pay from 6.32% to 7.16%.
+- **Peak in 2013:** payroll reached $2.92B, the highest of the four years, up 7.11% (+$193.8M) while records grew by 840.
+- **Dip in 2014:** payroll fell 1.43% (−$41.7M) even though records grew by 517. Average pay per record dropped about 2.8% (from ≈$77.6K to ≈$75.5K). The data alone does not explain why.
+- **Overtime share trends up:** overtime grew roughly 25.7% over 2011–2014 against about 5.4% growth in records, lifting its share of cash pay from 6.32% to 7.16%. The increase is uneven: 2012→2013 is almost flat (6.78% → 6.81%).
 
 ### 🏢 Business Question 3: Which Municipal Sectors Cost the Most to Taxpayers?
 
