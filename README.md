@@ -61,9 +61,9 @@ san-francisco-payroll-investigation/
 └── README.md                      # Comprehensive project documentation
 ```
 
-### 📊 Business Question 1: What Are the Primary Cost Drivers of Municipal Expenditure?
+### 📊 Business Question 1: What Are the Main Components of Payroll Cost?
 
-Business objective: break the total 2011–2014 compensation into Base Pay, Overtime, Other Pay and Benefits to see where taxpayer money is concentrated.
+**Business objective:** break total 2011–2014 compensation into Base Pay, Overtime, Other Pay and Benefits to see how payroll spend is distributed. Note: benefits are reported only for 2012–2014, so their share here is understated.
 
 ```sql
 SELECT
@@ -80,17 +80,21 @@ FROM sf_clean;
 ```
 📈 Results & Cost Breakdown:
 
-```
-Component	|Total (USD)	    |Share of grand total
-Base Pay	|9,819,150,982.31	|70.50%
-Overtime	|753,066,596.98 	|5.41%
-Other Pay	|542,370,270.97	    |3.89%
-Benefits	|2,813,149,454.79	|20.20%
-Grand Total	|13,927,772,712.41	|100%
-```
+
+|Component	    |Total (USD)	    |Share of grand total|
+|---------------|-------------------|--------------------|
+|Base Pay	    |9,819,150,982.31	|70.50%              |
+|Overtime	    |753,066,596.98 	|5.41%               |
+|Other Pay	    |542,370,270.97	    |3.89%               |
+|Benefits	    |2,813,149,454.79	|20.20%              |
+|Grand Total	|13,927,772,712.41	|100%                |
+
+*Components sum to $13,927,737,305.05, about $35K (0.0003%) below the grand total, most likely due to NULLs.*
+
 **💡 Analytical Takeaways**
-- The 70 / 20 split: base wages are 70.5% of cost and benefits (pensions, medical) are 20.2% ($2.81B). For every $3.50 of base pay, the city pays about $1.00 in benefits.
-- Variable compensation: overtime plus other pay is 9.3% ($1.295B) of total spending. Overtime ($753M) exceeds all other pay combined ($542M).
+
+- **Base pay dominates:** base wages are 70.5% of total cost and benefits 20.2% ($2.81B). Benefits are missing for 2011, so for 2012–2014 alone their share is higher (about 24.8%).
+- **Variable compensation:** overtime plus other pay is 9.3% ($1.295B) of total spending. Overtime ($753M) exceeds other pay ($542M).
 
 ### 📈 Business Question 2: How Did Payroll Evolve Over Time (YoY Dynamics)?
 
