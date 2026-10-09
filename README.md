@@ -1,10 +1,10 @@
-# 🏛️ San Francisco Municipal Payroll & Overtime Investigation
+# 🏛️ San Francisco Municipal Payroll & Overtime Analysis
 
-An end-to-end compensation audit of 148,650 public payroll records (2011–2014, ~$2.9B annual payroll excluding benefits) for the City and County of San Francisco.
+An end-to-end compensation analysis of 148,650 public payroll records (2011–2014, ~$2.6–2.9B annual payroll excluding benefits) for the City and County of San Francisco.
 
 The project covers the full analytics lifecycle: raw data profiling, cleaning and transformation in Power Query, staging-to-production modeling in PostgreSQL, and SQL analysis (cost structure, year-over-year dynamics).
 
-**Tech Stack:** `Power Query` · `PostgreSQL 18` · `pgAdmin 4` · `SQL` (`CTEs`, `Window Functions`, `CASE`, `Pattern Matching`
+**Tech Stack:** `Power Query` · `PostgreSQL 18` · `pgAdmin 4` · `SQL` (CTEs, window functions `LAG` / `NTILE`, `CASE`, `ILIKE`)
 
 ---
 
