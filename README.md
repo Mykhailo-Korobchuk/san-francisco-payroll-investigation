@@ -220,3 +220,52 @@ Job Title	                          |Employee Count	|Avg Base 	|Avg Overtime	|Ov
 - Transit Supervisors: 812 records average $28.3K in overtime, about $23M cumulatively over 2011–2014.
 - Senior fire ranks: Battalion Chiefs average $49.5K in overtime on top of a $179.1K base (28.5%).
 - Interpretation: a high overtime ratio is consistent with understaffing, round-the-clock coverage requirements or scheduled premiums, and this dataset cannot tell these apart. Whether converting overtime into additional full-time headcount would save money depends on benefit and hiring costs, which are not included in the overtime figures.
+
+### 💎 Business Question 5: What Drives the Top 1% Municipal Earners: Base Pay vs. Variable Pay?
+
+* **Business Objective:** Segment 148,650 employees into the Top 1% compensation tier versus the remaining 99% using `NTILE(100)` to dissect income inequality and evaluate whether elite earnings stem from contractual base wages or aggressive variable pay stacking (Overtime & Bonuses).
+
+```sql
+WITH presentil AS (
+    SELECT 
+        base_pay,
+        overtime_pay,
+        other_pay,
+        total_pay,
+        NTILE(100) OVER (ORDER BY total_pay DESC) AS ntile
+    FROM sf_clean
+)
+SELECT 
+    CASE 
+        WHEN ntile = 1 THEN 'Top 1% Earners'
+        ELSE 'Rest of Workforce' 
+    END AS earning_tier,
+    COUNT(*) AS total_records,
+    ROUND(AVG(base_pay), 2) AS avg_base,
+    ROUND(AVG(overtime_pay), 2) AS avg_overtime,
+    ROUND(AVG(other_pay), 2) AS avg_other,
+    ROUND(AVG(total_pay), 2) AS avg_total_pay,
+    ROUND(100 * (AVG(overtime_pay) + AVG(other_pay)) / NULLIF(AVG(total_pay), 0), 2) AS variable_pay_pct
+FROM presentil
+GROUP BY 
+    CASE 
+        WHEN ntile = 1 THEN 'Top 1% Earners'
+        ELSE 'Rest of Workforce' 
+    END
+ORDER BY avg_total_pay DESC;
+```
+📊 Top 1% vs. 99% Compensation Comparison:
+```
+Earning Tier	        |Headcount	|Avg Base    	|Avg Overtime	|Avg Other    |Avg Total    |Variable Pay Share
+Top 1% Earners	        |1,487	    |$164,431.94	|$41,183.89	    |$26,265.02	  |$234,202.68	|28.80 %
+Rest of Workforce (99%)	|147,167	|$65,340.62	    |$4,709.44	    |$3,469.64	  |$73,198.74	|11.17 %
+```
+**💡 Structural Inequality Insights:**
+The 3.2x Earnings Multiplier: The Top 1% municipal elite averages **
+234.2K∗∗incashcompensation,earning∗∗3.2x∗∗thestandardcivicemployee(
+73.2K).
+Variable Pay Leverage: While base pay for the top tier is 2.5x higher than the median, their overtime earnings are 8.7x higher ($41.2K vs 4.7K)∗∗,andotherpay/bonusesare∗∗7.6xhigher(
+26.3K vs $3.5K).
+The Variable Pay Ceiling: Over 28.8% of the Top 1%’s compensation package is derived from variable add-ons (adding an average of $67,448 above base contract wages), proving that municipal top compensation is heavily driven by supplemental pay maximization rather than base salary alone.
+
+
