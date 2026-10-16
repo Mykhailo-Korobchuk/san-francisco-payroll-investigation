@@ -182,17 +182,18 @@ GROUP BY sector
 ORDER BY total_records DESC;
 ```
 📊 Sector Compensation Benchmark Results:
-```
-Sector                      |Records	|Avg Pay         |Avg Overtime	|Total Sector Spend
-"Other"	                    |63393	    |65008.56	     |2769.02	    |4120437520.19
-"Medical & Healthcare"	    |20073	    |70290.68	     |2079.60	    |1410734008.57
-"Transit & Public Works"	|17621	    |69118.72	     |10909.37	    |1217664497.84
-"Management & Admin"	    |17424	    |74462.44	     |499.55	    |1297061184.58
-"Police & Law Enforcement"	|13130	    |119967.94	     |12549.28	    |1575179096.81
-"Community & Recreation"	|7737	    |34572.85	     |1422.91	    |267386457.13
-"Fire & Rescue"	            |5879	    |151711.62	     |26383.32	    |891760885.18
-"Legal & Judicial"	        |3397	    |98435.72	     |1648.86	    |334386135.75
-```
+
+|Sector                      |Records	|Avg Pay         |Avg Overtime	|Total Sector Spend|
+|----------------------------|----------|----------------|--------------|------------------|
+|"Other"	                 |63393	    |65008.56	     |2769.02	    |4120437520.19|
+|"Medical & Healthcare"	     |20073	    |70290.68	     |2079.60	    |1410734008.57|
+|"Transit & Public Works"	 |17621	    |69118.72	     |10909.37	    |1217664497.84|
+|"Management & Admin"	     |17424	    |74462.44	     |499.55	    |1297061184.58|
+|"Police & Law Enforcement"	 |13130	    |119967.94	     |12549.28	    |1575179096.81|
+|"Community & Recreation"	 |7737	    |34572.85	     |1422.91	    |267386457.13|
+|"Fire & Rescue"	         |5879	    |151711.62	     |26383.32	    |891760885.18|
+|"Legal & Judicial"	         |3397	    |98435.72	     |1648.86	    |334386135.75|
+
 **💡 Executive Insights:**
 - Emergency services pay premium: Fire & Rescue ($151.7K avg) and Police ($120.0K avg) are the highest-paid sectors, about 2.0x and 1.6x the overall average of ~$74.8K per record.
 - Overtime density in emergency services: Fire records average $26,383 in overtime (about 17.4% of average pay) and Police $12,549 (about 10.5%). Together they account for roughly $320M of overtime, around 42% of all overtime in the dataset.
@@ -217,19 +218,20 @@ ORDER BY overtime_burden_pct DESC
 LIMIT 10;
 ```
 📊 Top 10 Overtime-Dependent Municipal Roles:
-```
-Job Title	                          |Employee Count	|Avg Base 	|Avg Overtime	|Overtime Burden
-"ELECTRICAL TRANSIT SYSTEM MECHANIC"  |204	            |71452.34	|31643.19	    |43.85 %
-"TRANSIT POWER LINE WORKER"	          |75	            |87510.65	|33432.57	    |38.72 %
-"TRAIN CONTROLLER"	                  |65	            |88167.51	|32408.12	    |36.76 %
-"TRANSIT SUPERVISOR"	              |812	            |77941.73	|28266.40	    |36.27 %
-"STATION AGENT, MUNICIPAL RAILWAY"	  |52	            |67222.53	|23972.48	    |35.66 %
-"TRACK MAINTENANCE WORKER"	          |129	            |49306.83	|16433.41	    |34.40 %
-"Station Agent, Muni Railway"	      |164	            |66841.19	|22438.57	    |34.20 %
-"Electrl Trnst Mech, Asst Sprv"	      |68	            |85956.63	|28705.15	    |33.39 %
-"Electrical Transit System Mech"	  |631	            |75272.25	|22437.37	    |29.90 %
-"Battalion Chief, Fire Suppress"	  |65	            |179084.05	|49453.05	    |28.49 %
-```
+
+|Job Title	                          |Employee Count	|Avg Base 	|Avg Overtime	|Overtime Burden|
+|-------------------------------------|-----------------|-----------|---------------|---------------|
+|"ELECTRICAL TRANSIT SYSTEM MECHANIC"  |204	            |71452.34	|31643.19	    |43.85 %|
+|"TRANSIT POWER LINE WORKER"	          |75	            |87510.65	|33432.57	    |38.72 %|
+|"TRAIN CONTROLLER"	                  |65	            |88167.51	|32408.12	    |36.76 %|
+|"TRANSIT SUPERVISOR"	              |812	            |77941.73	|28266.40	    |36.27 %|
+|"STATION AGENT, MUNICIPAL RAILWAY"	  |52	            |67222.53	|23972.48	    |35.66 %|
+|"TRACK MAINTENANCE WORKER"	          |129	            |49306.83	|16433.41	    |34.40 %|
+|"Station Agent, Muni Railway"	      |164	            |66841.19	|22438.57	    |34.20 %|
+|"Electrl Trnst Mech, Asst Sprv"	      |68	            |85956.63	|28705.15	    |33.39 %|
+|"Electrical Transit System Mech"	  |631	            |75272.25	|22437.37	    |29.90 %|
+|"Battalion Chief, Fire Suppress"	  |65	            |179084.05	|49453.05	    |28.49 %|
+
 **💡 Operational Inefficiency Takeaways:**
 - Muni transit concentration: 9 of the top 10 entries belong to the municipal railway and transit system (SFMTA / Muni). Their overtime equals roughly 30–44% of base pay.
 - Transit Supervisors: 812 records average $28.3K in overtime, about $23M cumulatively over 2011–2014.
@@ -270,11 +272,12 @@ GROUP BY
 ORDER BY avg_total_pay DESC;
 ```
 📊 Top 1% vs. 99% Compensation Comparison:
-```
-Earning Tier	        |Headcount	|Avg Base    	|Avg Overtime	|Avg Other    |Avg Total    |Variable Pay Share
-Top 1% Earners	        |1,487	    |164,431.94	    |41,183.89	    |26,265.02	  |234,202.68	|28.80 %
-Rest of Workforce (99%)	|147,167	|65,340.62	    |4,709.44	    |3,469.64	  |73,198.74	|11.17 %
-```
+
+|Earning Tier	        |Headcount	|Avg Base    	|Avg Overtime	|Avg Other    |Avg Total    |Variable Pay Share|
+|-----------------------|-----------|---------------|---------------|-------------|-------------|------------------|
+|Top 1% Earners	        |1,487	    |164,431.94	    |41,183.89	    |26,265.02	  |234,202.68	|28.80 %|
+|Rest of Workforce (99%)	|147,167	|65,340.62	    |4,709.44	    |3,469.64	  |73,198.74	|11.17 %|
+
 **💡 Pay Concentration Insights**
 - 3.2x multiplier: the top 1% averages $234.2K in total pay versus $73.2K for the rest.
 - Where the gap comes from: of the roughly $158K difference in average component pay, about 63% is base pay ($99.1K), 23% overtime ($36.5K) and 14% other pay ($22.8K). Base pay of the top tier is 2.5x the rest-of-workforce average, so top earners are largely better-paid on contract wages too.
@@ -301,12 +304,13 @@ GROUP BY year
 ORDER BY year;
 ```
 📊 True Workforce Cost Breakdown (2012–2014):
-```
-Year	|Total Workforce	|Avg Cash	|Avg Benefits 	|Avg True	|Benefits Overhea	|Total City Benefits	|YoY Benefits Change
-2012	|36,766	            |74,125.36	|26,596.17	    |100,721.53	|35.88%	            |972,089,942.84	        |null
-2013	|37,606	            |77,630.02	|24,253.26	    |101,883.28	|31.24%	            |896,109,608.49	        |-75,980,334.35
-2014	|38,123	            |75,475.79	|25,159.08	    |100,634.87	|33.33%	            |944,949,903.46	        |+48,840,294.97
-```
+
+|Year	|Total Workforce	|Avg Cash	|Avg Benefits 	|Avg True	|Benefits Overhea	|Total City Benefits	|YoY Benefits Change|
+|-------|-------------------|-----------|---------------|-----------|-------------------|-----------------------|-------------------|
+|2012	|36,766	            |74,125.36	|26,596.17	    |100,721.53	|35.88%	            |972,089,942.84	        |null|
+|2013	|37,606	            |77,630.02	|24,253.26	    |101,883.28	|31.24%	            |896,109,608.49	        |-75,980,334.35|
+|2014	|38,123	            |75,475.79	|25,159.08	    |100,634.87	|33.33%	            |944,949,903.46	        |+48,840,294.97|
+
 **💡 Executive Insights**
 - ~$100K true cost: adding benefits pushes the average annual cost of a payroll record to $100.6K–$101.9K, against $74.1K–$77.6K in cash pay.
 - 31%–36% benefits load: benefits add $24.3K–$26.6K on average, a 31.2% to 35.9% surcharge on cash pay.
@@ -338,19 +342,20 @@ ORDER BY total_pay_benefits DESC
 LIMIT 10;
 ```
 📊 Top 10 All-Time Highest Total Compensation Packages:
-```
-Employee Name	         |Job Title	                                        |Year	|Base	   |Overtime  |Other	  |Benefits	|Compensation |Non-Base
-"NATHANIEL FORD"	     |"GENERAL MANAGER-METROPOLITAN TRANSIT AUTHORITY"	|2011	|167411.18 |0	      |400184.25  |null     |567595.43	  |70.51
-"GARY JIMENEZ"	         |"CAPTAIN III (POLICE DEPARTMENT)"	                |2011	|155966.02 |245131.88 |137811.38  |null     |538909.28	  |71.06
-"DAVID SHINN"	         |"Deputy Chief 3"	                                |2014	|129150.01 |0	      |342802.63  |38780.04	|510732.68	  |74.71
-"Amy P Hart"	         |"Asst Med Examiner"	                            |2014	|318835.49 |10712.95  |60563.54	  |89540.23	|479652.21	  |33.53
-"William J Coaker Jr."	 |"Chief Investment Officer"	                    |2014	|257340	   |0	      |82313.7	  |96570.66	|436224.36	  |41.01
-"Gregory P Suhr"	     |"CHIEF OF POLICE"	                                |2013	|319275.01 |0	      |20007.06	  |86533.21	|425815.28	  |25.02
-"Joanne M Hayes-White"	 |"Chief, Fire Department"	                        |2013	|313686.01 |0	      |23236	  |85431.39	|422353.4	  |25.73
-"Gregory P Suhr"	     |"CHIEF OF POLICE"	                                |2014	|307450.04 |0	      |19266.72	  |91302.46	|418019.22	  |26.45
-"Joanne M Hayes-White"	 |"Chief, Fire Department"	                        |2014	|302068	   |0	      |24165.44	  |91201.66	|417435.1	  |27.64
-"Ellen G Moffatt"	     |"Asst Med Examiner"	                            |2014	|270222.04 |6009.22	  |67956.2	  |71580.48	|415767.94	  |35.01
-```
+
+|Employee Name	         |Job Title	                                        |Year	|Base	   |Overtime  |Other	  |Benefits	|Compensation |Non-Base|
+|------------------------|--------------------------------------------------|-------|----------|----------|-----------|---------|-------------|--------|
+|"NATHANIEL FORD"	     |"GENERAL MANAGER-METROPOLITAN TRANSIT AUTHORITY"	|2011	|167411.18 |0	      |400184.25  |null     |567595.43	  |70.51|
+|"GARY JIMENEZ"	         |"CAPTAIN III (POLICE DEPARTMENT)"	                |2011	|155966.02 |245131.88 |137811.38  |null     |538909.28	  |71.06|
+|"DAVID SHINN"	         |"Deputy Chief 3"	                                |2014	|129150.01 |0	      |342802.63  |38780.04	|510732.68	  |74.71|
+|"Amy P Hart"	         |"Asst Med Examiner"	                            |2014	|318835.49 |10712.95  |60563.54	  |89540.23	|479652.21	  |33.53|
+|"William J Coaker Jr."	 |"Chief Investment Officer"	                    |2014	|257340	   |0	      |82313.7	  |96570.66	|436224.36	  |41.01|
+|"Gregory P Suhr"	     |"CHIEF OF POLICE"	                                |2013	|319275.01 |0	      |20007.06	  |86533.21	|425815.28	  |25.02|
+|"Joanne M Hayes-White"	 |"Chief, Fire Department"	                        |2013	|313686.01 |0	      |23236	  |85431.39	|422353.4	  |25.73|
+|"Gregory P Suhr"	     |"CHIEF OF POLICE"	                                |2014	|307450.04 |0	      |19266.72	  |91302.46	|418019.22	  |26.45|
+|"Joanne M Hayes-White"	 |"Chief, Fire Department"	                        |2014	|302068	   |0	      |24165.44	  |91201.66	|417435.1	  |27.64|
+|"Ellen G Moffatt"	     |"Asst Med Examiner"	                            |2014	|270222.04 |6009.22	  |67956.2	  |71580.48	|415767.94	  |35.01|
+
 **💡 Executive Insights**
 - Only 3 records exceed $500K: Ford (2011), Jimenez (2011) and Shinn (2014). For them, non-base compensation is 70.5%–74.7% of the package.
 - Other Pay drives the top two single-source outliers: Ford's $400.2K and Shinn's $342.8K in Other Pay are far above their base pay. The dataset does not itemize what Other Pay contains (it can include lump-sum payouts), so the cause cannot be determined from the data.
